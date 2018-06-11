@@ -15,7 +15,6 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			mounted: false,
 			users: [],
 			messages: [],
 			text: '',
@@ -24,13 +23,13 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		this.mounted = true;
 		socket.on('message', message => this.messageReceive(message));
 		socket.on('update', ({users}) => this.chatUpdate(users));
 	}
 
 	componentWillUnmount() {
-		this.mounted = false;
+		this.messageReceive = null;
+		this.chatUpdate = null;
 	}
 
 	messageReceive(message) {
